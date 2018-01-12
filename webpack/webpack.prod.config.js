@@ -16,8 +16,7 @@ const pathsToClean = [
 ]
 
 const cleanOptions = {
-    verbose: true,
-    dry: false
+    root: process.cwd()
 }
 
 module.exports = merge(common, {
