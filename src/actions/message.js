@@ -1,16 +1,31 @@
-import { SET_MESSAGE } from '../types/message';
+import {
+	START_ADDING_MESSAGE,
+	ADD_MESSAGE
+} from '../types/message';
 
-function changeMessage(message) {
+function startAddingMessage(message) {
 	return {
-		type: SET_MESSAGE,
+		type: START_ADDING_MESSAGE,
 		payload: {
 			message
 		}
 	};
 }
 
-export function setMessage(message) {
+function messageSaved(message) {
+	return {
+		type: ADD_MESSAGE,
+		payload: {
+			message
+		}
+	};
+}
+
+export function addMessage(message) {
 	return (dispatch) => {
-		dispatch(changeMessage(message));
+		dispatch(startAddingMessage(message));
+		setTimeout(() => {
+			dispatch(messageSaved(message));
+		}, 5000);
 	};
 }

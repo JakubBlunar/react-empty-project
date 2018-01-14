@@ -1,13 +1,26 @@
-import { SET_MESSAGE } from '../types/message';
+import {
+	START_ADDING_MESSAGE,
+	ADD_MESSAGE
+} from '../types/message';
 
 const initState = {
-	message: ''
+	messages: [],
+	loading: false
 };
 
 export default (state = initState, action) => {
 	switch (action.type) {
-	case SET_MESSAGE:
-		return { ...state, message: action.payload.message };
+	case START_ADDING_MESSAGE:
+		return {
+			...state,
+			loading: true
+		};
+	case ADD_MESSAGE:
+		return {
+			...state,
+			messages: state.messages.concat(action.payload.message),
+			loading: false
+		};
 	default:
 		return state;
 	}
