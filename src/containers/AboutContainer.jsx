@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import { Icon } from 'react-fa';
 import { map } from 'lodash';
 
 import InputPreview from '../components/InputPreview';
@@ -23,9 +22,7 @@ class IndexContainer extends React.Component {
 
 	render() {
 		const loading = this.props.messageStore.loading ? (
-			<div>
-				<Icon spin name="spinner" />
-			</div>) : null;
+			<div />) : null;
 
 
 		const { messages } = this.props.messageStore;

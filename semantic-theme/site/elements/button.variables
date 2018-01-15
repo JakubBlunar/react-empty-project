@@ -1,0 +1,6 @@
+@backgroundColor: orange;
+
+@primaryColor:  #A05595;
+@secondaryColor: #1C9BD5;
+
+@fontWeight: bold;

@@ -23,7 +23,9 @@ module.exports = {
 
 		}, {
 			test: /\.less$/,
-			loaders: ['style-loader', 'css-loder', 'less-loader'],
+			use: ExtractTextPlugin.extract({
+				use: ['css-loader', 'less-loader']
+			})
 		},
 		{
 			test: /\.css$/,
@@ -93,6 +95,10 @@ module.exports = {
 	}, 
 	plugins: [
 		new ExtractTextPlugin("style.css"),
+		new webpack.LoaderOptionsPlugin({
+			minimize: true,
+			debug: false,
+	  }),
 	],
 	output: {
 		path: `${parentDir}/dist`,
@@ -100,5 +106,8 @@ module.exports = {
 	},
 	resolve: {
 		extensions: ['.js', '.jsx'],
+		alias: {
+			'../../theme.config$': path.join(parentDir, 'semantic-theme/theme.config')  
+		}
 	},
 };

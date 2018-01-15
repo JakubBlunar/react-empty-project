@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import AppRoutes from './routes';
+import '../semantic-theme/semantic.less';
 
+import AppRoutes from './routes';
 import store from './stores/store';
 
 ReactDOM.render(
