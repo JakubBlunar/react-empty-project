@@ -3,13 +3,13 @@ const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
-
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 
 const parentDir = path.join(__dirname, '../');
 
-const host = 'localhost';
-const port = 8000;
+const host = process.env.host || 'localhost';
+const port = process.env.port || 8000;
 
 module.exports = merge(common, {
 	devtool: '#inline-source-map',
@@ -18,7 +18,7 @@ module.exports = merge(common, {
 		historyApiFallback: true,
 		inline: true,
 		port,
-		host,
+		host
 	},
 	plugins: [
 		new webpack.DefinePlugin({
@@ -27,17 +27,15 @@ module.exports = merge(common, {
 		}),
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NoEmitOnErrorsPlugin(),
+		new ExtractTextPlugin("style.css"),
+		new webpack.NamedModulesPlugin(),
 		new HtmlWebpackPlugin({
 			template: 'src/index.ejs',
-			minify: {
-				removeComments: false,
-				collapseWhitespace: true,
-			},
+			favicon: 'public/favicon.ico',
 			inject: true,
-		}),
+		})
 		/* new OpenBrowserPlugin({
             url: 'http://' + host + ':' + port
         }) */
-	],
-
+	]
 });

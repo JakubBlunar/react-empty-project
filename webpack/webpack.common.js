@@ -3,7 +3,6 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const parentDir = path.join(__dirname, '../');
-
 const prod = process.argv.indexOf('-p') !== -1;
 
 module.exports = {
@@ -17,10 +16,9 @@ module.exports = {
 			exclude: /node_modules/,
 			loader: 'babel-loader',
 			query: {
-				plugins: ['transform-runtime', "transform-class-properties"],
+				plugins: ['transform-runtime', "transform-class-properties", 'lodash'],
 				presets: ['react', 'env', 'stage-3']
-			},
-
+			}
 		}, {
 			test: /\.less$/,
 			use: ExtractTextPlugin.extract({
@@ -50,7 +48,7 @@ module.exports = {
 					return 'assets/fonts/[hash].[ext]';
 				},
 
-			},
+			}
 		},
 		{
 			test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -64,10 +62,10 @@ module.exports = {
 					return 'assets/fonts/[hash].[ext]';
 				},
 
-			},
+			}
 		},
 		{
-			test: /\.(jpe?g|gif|png|wav|mp3|svg)$/,
+			test: /\.(jpe?g|gif|png|svg)$/,
 			loader: 'file-loader',
 			options: {
 				name(file) {
@@ -91,23 +89,16 @@ module.exports = {
 					return 'assets/music/[hash].[ext]';
 				}
 			}
-		}],
-	}, 
-	plugins: [
-		new ExtractTextPlugin("style.css"),
-		new webpack.LoaderOptionsPlugin({
-			minimize: true,
-			debug: false,
-	  }),
-	],
+		}]
+	},
 	output: {
 		path: `${parentDir}/dist`,
-		filename: 'bundle.js',
+		filename: 'bundle.js'
 	},
 	resolve: {
 		extensions: ['.js', '.jsx'],
 		alias: {
 			'../../theme.config$': path.join(parentDir, 'semantic-theme/theme.config')  
 		}
-	},
+	}
 };

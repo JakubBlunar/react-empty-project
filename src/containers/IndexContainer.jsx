@@ -5,12 +5,12 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { map } from 'lodash';
+import { Container } from 'semantic-ui-react';
 
 import InputPreview from '../components/InputPreview';
 import * as messageActions from '../actions/message';
 import style from './IndexContainer.scss';
 import imgGif from '../../public/images/image.gif';
-
 
 class IndexContainer extends React.Component {
 	static propTypes = {
@@ -35,8 +35,8 @@ class IndexContainer extends React.Component {
 		const mrows = map(messages, (m, index) => (<tr key={index}><td>{m}</td></tr>));
 
 		return (
-			<div>
-				<Helmet title="SOME title" />
+			<Container>
+				<Helmet title="Home" />
 
 				<h1 className={style.header}>Add message</h1>
 				<InputPreview
@@ -63,7 +63,7 @@ class IndexContainer extends React.Component {
 					<button>Go to About</button>
 				</Link>
 
-			</div>
+			</Container>
 		);
 	}
 }

@@ -1,10 +1,9 @@
-import { toast } from 'react-toastify';
 import { history } from '../helpers/history';
-
 import {
 	USER_LOGIN_REQUEST,
 	USER_LOGIN_SUCCESS,
-	USERS_LOGIN_FAILURE
+	// USER_LOGIN_FAILURE,
+	USER_LOGOUT
 } from '../types/auth';
 
 function userLoginRequest() {
@@ -12,12 +11,13 @@ function userLoginRequest() {
 		type: USER_LOGIN_REQUEST
 	};
 }
-
+/*
 function userLoginFailure() {
 	return {
-		type: USERS_LOGIN_FAILURE
-	}
+		type: USER_LOGIN_FAILURE
+	};
 }
+*/
 
 function userLoginSuccess(user) {
 	return {
@@ -25,11 +25,23 @@ function userLoginSuccess(user) {
 		payload: {
 			user
 		}
-	}
+	};
+}
+
+function logout() {
+	return {
+		type: USER_LOGOUT
+	};
+}
+
+export function logoutUser() {
+	return (dispatch) => {
+		dispatch(logout());
+	};
 }
 
 export function logInUser(userLoginData) {
-	return (dispatch, getStore) => {
+	return (dispatch) => {
 		console.log(userLoginData);
 		dispatch(userLoginRequest());
 		setTimeout(() => {

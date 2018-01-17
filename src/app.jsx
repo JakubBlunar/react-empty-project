@@ -1,16 +1,37 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Router, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { ToastContainer } from 'react-toastify';
+import PropTypes from 'prop-types';
 
 import LoginPage from './containers/LoginPage';
 import { history } from './helpers/history';
 import MainLayoutContainer from './containers/layout/MainLayoutContainer';
 import NotFound from './containers/404';
 
+class AuthRequiredRoute extends Route {
+	static propTypes = {
+		isLoggedIn: PropTypes.bool.isRequired,
+		component: PropTypes.func.isRequired
+	};
+
+	render() {
+		if (!this.props.isLoggedIn) {
+			return <Redirect to="/login" />;
+		}
+		return <this.props.component {...this.props} />;
+	}
+}
+
 class App extends Component {
+	static propTypes = {
+		authStore: PropTypes.shape({
+			loggedIn: PropTypes.bool.isRequired
+		}).isRequired
+	};
+
 	constructor(props) {
 		super(props);
 
@@ -27,14 +48,24 @@ class App extends Component {
 		return (
 			<div>
 				<Helmet
-					defaultTitle="My app - MyApp"
+					defaultTitle="MyApp"
 					titleTemplate="%s - MyApp"
 				/>
 				<ToastContainer />
 				<Router history={history}>
 					<Switch>
-						<Route exact path="/" component={MainLayoutContainer} />
-						<Route exact path="/about" component={MainLayoutContainer} />
+						<AuthRequiredRoute
+							exact
+							path="/"
+							component={MainLayoutContainer}
+							isLoggedIn={this.props.authStore.loggedIn}
+						/>
+						<AuthRequiredRoute
+							exact
+							path="/about"
+							component={MainLayoutContainer}
+							isLoggedIn={this.props.authStore.loggedIn}
+						/>
 						<Route exact path="/login" component={LoginPage} />
 						<Route component={NotFound} />
 					</Switch>

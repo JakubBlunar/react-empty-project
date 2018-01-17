@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Sidebar, Container } from 'semantic-ui-react';
+import { Sidebar, Segment } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 import HeaderContainer from './Header';
@@ -39,12 +39,12 @@ class MainLayoutContainer extends Component {
 		return (
 			<div>
 				<HeaderContainer toggleSidebar={this.toggleSidebar} />
-				<Sidebar.Pushable style={{ minHeight: '100vh' }}>
+				<Sidebar.Pushable style={{ minHeight: '100vh', marginTop: 0, border: 'none' }} as={Segment}>
 					<SidebarContainer visible={sidebarVisible} />
 					<Sidebar.Pusher>
-						<Container>
+						<Segment basic style={{ minHeight: '100vh' }}>
 							{content}
-						</Container>
+						</Segment>
 					</Sidebar.Pusher>
 				</Sidebar.Pushable>
 			</div>

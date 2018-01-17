@@ -1,7 +1,8 @@
 import {
 	USER_LOGIN_REQUEST,
-	USERS_LOGIN_FAILURE,
-	USER_LOGIN_SUCCESS
+	USER_LOGIN_FAILURE,
+	USER_LOGIN_SUCCESS,
+	USER_LOGOUT
 } from '../types/auth';
 
 const initState = {
@@ -24,12 +25,18 @@ export default (state = initState, action) => {
 			loggedIn: true,
 			user: action.payload.user
 		};
-	case USERS_LOGIN_FAILURE:
+	case USER_LOGIN_FAILURE:
 		return {
 			...state,
 			loggedIn: false,
 			user: null,
 			loading: false
+		};
+	case USER_LOGOUT:
+		return {
+			...state,
+			loading: false,
+			loggedIn: false
 		};
 	default:
 		return state;

@@ -6,7 +6,8 @@ import PropTypes from 'prop-types';
 import { every, values } from 'lodash';
 import { Button,
 	Form,
-	Segment
+	Segment,
+	Checkbox
 } from 'semantic-ui-react';
 import * as authActions from '../../actions/auth';
 
@@ -24,14 +25,19 @@ class LoginForm extends Component {
 		super(props);
 
 		this.state = {
-			formValues: {},
+			formValues: {
+				password: '',
+				email: '@',
+				remember: true
+			},
 			formErrors: {
 				email: '',
 				password: ''
 			},
 			fields: {
 				email: true,
-				password: true
+				password: true,
+				remember: true
 			}
 		};
 	}
@@ -65,12 +71,17 @@ class LoginForm extends Component {
 		() => { this.validateField(name, value); }
 	);
 
+	handleCustomFieldChange = (name, type, value) => {
+		this.setState(
+			{ formValues: { ...this.state.formValues, [name]: value } },
+			() => { this.validateField(name, value); }
+		);
+	}
+
 	isValid = () =>
 		every(values(this.state.fields), v => v === true);
 
 	handleSubmit = () => {
-		console.log(this.isValid());
-		console.log(this.state.formValues);
 		if (this.isValid()) {
 			this.props.actions.logInUser();
 		}
@@ -91,7 +102,7 @@ class LoginForm extends Component {
 						placeholder="E-mail address"
 						name="email"
 						onChange={this.handleChange}
-						value={this.state.email}
+						value={this.state.formValues.email}
 						error={!this.state.fields.email}
 						label={!this.state.fields.email ? this.state.formErrors.email : undefined}
 					/>
@@ -103,11 +114,19 @@ class LoginForm extends Component {
 						type="password"
 						name="password"
 						onChange={this.handleChange}
-						value={this.state.password}
+						value={this.state.formValues.password}
 						error={!this.state.fields.password}
 						label={!this.state.fields.password ? this.state.formErrors.password : undefined}
 					/>
-
+					<Form.Field>
+						<Checkbox
+							toggle
+							label="Remember me"
+							name="remember"
+							onChange={(e, el) => this.handleCustomFieldChange(el.name, el.type, el.checked)}
+							checked={this.state.formValues.remember}
+						/>
+					</Form.Field>
 					<Button fluid size="large">Login</Button>
 				</Segment>
 			</Form>

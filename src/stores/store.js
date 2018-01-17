@@ -11,7 +11,8 @@ import authStore from '../reducers/auth';
 
 const config = {
 	key: 'root',
-	storage
+	storage,
+	blacklist: ['messages']
 };
 
 const reducers = {
