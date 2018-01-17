@@ -22,7 +22,8 @@
   "homepage": "https://github.com/JakubBlunar/react-empty-project#readme",
   "dependencies": {
     "classnames": "^2.2.5",
-    "less-plugin-rewrite-import": "^0.1.1",
+    "faker": "^4.1.0",
+    "history": "^4.7.2",
     "lodash": "^4.17.4",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
@@ -30,9 +31,12 @@
     "react-fa": "^5.0.0",
     "react-helmet": "^5.2.0",
     "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "react-toastify": "^3.2.2",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
+    "redux-persist": "^5.4.0",
     "redux-thunk": "^2.2.0",
     "semantic-ui-less": "^2.2.12",
     "semantic-ui-react": "^0.77.2"

@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { map } from 'lodash';
-import { Button, Container, Header } from 'semantic-ui-react';
 
 import InputPreview from '../components/InputPreview';
 import * as messageActions from '../actions/message';
@@ -38,16 +37,7 @@ class IndexContainer extends React.Component {
 		return (
 			<div>
 				<Helmet title="SOME title" />
-				<Container>
-					<Header as="h1">Hello world!</Header>
 
-					<Button
-						content="Discover docs"
-						href="http://react.semantic-ui.com"
-						icon="github"
-						labelPosition="left"
-					/>
-				</Container>
 				<h1 className={style.header}>Add message</h1>
 				<InputPreview
 					onChange={e => this.onChange(e)}
@@ -72,6 +62,7 @@ class IndexContainer extends React.Component {
 				<Link to="/about">
 					<button>Go to About</button>
 				</Link>
+
 			</div>
 		);
 	}
