@@ -1,6 +1,38 @@
-@backgroundColor: orange;
+/*-------------------
+   Global Variables
+--------------------*/
 
-@primaryColor:  #A05595;
-@secondaryColor: #1C9BD5;
+@pageFont: Helvetica Neue, Helvetica, Arial, sans-serif;
 
+/*-------------------
+   Button Variables
+--------------------*/
+
+
+@backgroundColor: #F2711C;
+@color: @white;
+
+
+@textTransform: none;
 @fontWeight: bold;
+@textColor: @white;
+
+@horizontalPadding: 1.284em;
+@verticalPadding: 0.8571em;
+
+@activeBackgroundColor: rgba(0, 0, 0, 0.1);
+
+/*-------------------
+        States
+--------------------*/
+
+@hoverBackgroundColor:  #d96519;
+@hoverBackgroundImage: none;
+@hoverColor: @white;
+
+@downBackgroundColor: #d96519;
+@downColor: @white;
+
+@activeHoverColor: @white;
+@activeColor: @white;
+@focusColor: @white;

@@ -27,8 +27,8 @@ class LoginForm extends Component {
 		this.state = {
 			formValues: {
 				password: '',
-				email: '@',
-				remember: true
+				email: '',
+				remember: false
 			},
 			formErrors: {
 				email: '',
@@ -44,17 +44,16 @@ class LoginForm extends Component {
 
 	validateField = (fieldName, value) => {
 		const { formErrors, fields } = this.state;
-
 		let valid = false;
 		switch (fieldName) {
 		case 'email':
 			valid = (/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i).test(value);
-			formErrors.email = valid ? '' : 'email is invalid';
+			formErrors.email = valid ? '' : 'Email is invalid';
 			fields[fieldName] = valid;
 			break;
 		case 'password':
 			valid = value.length >= 6;
-			formErrors.password = valid ? '' : 'password is too short';
+			formErrors.password = valid ? '' : 'Password is too short';
 			fields[fieldName] = valid;
 			break;
 		default:
@@ -83,7 +82,9 @@ class LoginForm extends Component {
 
 	handleSubmit = () => {
 		if (this.isValid()) {
-			this.props.actions.logInUser();
+			this.props.actions.logInUser({
+				...this.state.formValues
+			});
 		}
 	}
 

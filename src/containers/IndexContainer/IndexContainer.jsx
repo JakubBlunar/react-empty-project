@@ -3,24 +3,25 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { Helmet } from 'react-helmet';
+import { Container } from 'semantic-ui-react';
 
 class IndexContainer extends React.Component {
 	render() {
 		return (
-			<div>
-				<Helmet title="About" />
-				<h1>ABOUT page</h1>
+			<Container>
+				<Helmet title="Home" />
 
-				<Link to="/">
-					<button ref={(but) => { this.button = but; }}>Go to index</button>
+				<Link to="/about">
+					<button ref={(but) => { this.button = but; }}>Go to About</button>
 				</Link>
-			</div>
+
+			</Container>
 		);
 	}
 }
 
 const mapStateToProps = state => ({
-	messageStore: state.messageStore
+	...state
 });
 
 const mapDispatchToProps = dispatch => ({

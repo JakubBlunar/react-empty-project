@@ -29,7 +29,7 @@
 
 @media only screen and (min-width: 1300px) {
 	.ui.container {
-		width: 1200px;
+		width: 90%;
 		margin-left: auto!important;
 		margin-right: auto!important;
 	}
@@ -37,8 +37,22 @@
 
 @media only screen and (min-width: 1600px) {
 	.ui.container {
-		width: 1500px;
+		width: 80%;
 		margin-left: auto!important;
 		margin-right: auto!important;
 	}
+
+	.ui.visible.thin.left.sidebar ~ .pusher {
+		width: ~"calc(100% - 150px)";
+	
+	}
 }
+
+.pushable > .pusher {
+    -webkit-transition: transform 500ms ease, width 500ms ease;
+	transition: transform 500ms ease, width 500ms ease;
+}
+
+.ui.visible.thin.left.sidebar ~ .pusher {
+	width: ~"calc(100% - 150px)";
+}	

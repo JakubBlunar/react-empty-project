@@ -9,7 +9,7 @@ const path = require('path');
 const parentDir = path.join(__dirname, '../');
 
 const host = process.env.host || 'localhost';
-const port = process.env.port || 8000;
+const port = process.env.port || 3000;
 
 module.exports = merge(common, {
 	devtool: '#inline-source-map',

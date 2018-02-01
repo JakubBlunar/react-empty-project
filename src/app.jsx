@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet';
 import { ToastContainer } from 'react-toastify';
 import PropTypes from 'prop-types';
 
+import RegistrationPage from './containers/RegistrationPage';
 import LoginPage from './containers/LoginPage';
 import { history } from './helpers/history';
 import MainLayoutContainer from './containers/layout/MainLayoutContainer';
@@ -48,8 +49,8 @@ class App extends Component {
 		return (
 			<div>
 				<Helmet
-					defaultTitle="MyApp"
-					titleTemplate="%s - MyApp"
+					defaultTitle="Profizona"
+					titleTemplate="%s - Profizona"
 				/>
 				<ToastContainer />
 				<Router history={history}>
@@ -66,7 +67,26 @@ class App extends Component {
 							component={MainLayoutContainer}
 							isLoggedIn={this.props.authStore.loggedIn}
 						/>
+						<AuthRequiredRoute
+							exact
+							path="/administrators"
+							component={MainLayoutContainer}
+							isLoggedIn={this.props.authStore.loggedIn}
+						/>
+						<AuthRequiredRoute
+							exact
+							path="/users"
+							component={MainLayoutContainer}
+							isLoggedIn={this.props.authStore.loggedIn}
+						/>
+						<AuthRequiredRoute
+							exact
+							path="/user/:id"
+							component={MainLayoutContainer}
+							isLoggedIn={this.props.authStore.loggedIn}
+						/>
 						<Route exact path="/login" component={LoginPage} />
+						<Route exact path="/registration" component={RegistrationPage} />
 						<Route component={NotFound} />
 					</Switch>
 				</Router>

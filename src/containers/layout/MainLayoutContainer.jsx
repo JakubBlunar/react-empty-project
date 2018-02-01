@@ -1,18 +1,34 @@
 import React, { Component } from 'react';
 import { Sidebar, Segment } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import { parseInt, isInteger } from 'lodash';
+
+import { history } from '../../helpers/history';
 
 import HeaderContainer from './Header';
 import SidebarContainer from './Sidebar';
-import IndexContainer from '../IndexContainer';
+import IndexContainer from '../IndexContainer/IndexContainer';
 import AboutContainer from '../AboutContainer';
-
+import AdministratorContainer from '../AdministratorsContainer';
+import UsersContainer from '../UsersContainer';
+import UserDetailContainer from '../UserDetailContainer';
 
 class MainLayoutContainer extends Component {
 	static propTypes = {
-		location: PropTypes.shape({
-			pathname: PropTypes.string.isRequired
-		}).isRequired
+		computedMatch: PropTypes.shape({
+			params: PropTypes.shape({
+				id: PropTypes.string
+			}).isRequired
+		}).isRequired,
+		path: PropTypes.string.isRequired
+	}
+
+	static defaultTypes = {
+		computedMatch: {
+			params: {
+				id: ''
+			}
+		}
 	}
 
 	constructor(props) {
@@ -22,15 +38,32 @@ class MainLayoutContainer extends Component {
 		};
 	}
 
-	toggleSidebar = () => this.setState({ sidebarVisible: !this.state.sidebarVisible })
+	toggleSidebar = () => this.setState({ sidebarVisible: !this.state.sidebarVisible });
+	clickSidebarItem = (link) => {
+		this.setState({ sidebarVisible: false });
+		history.push(link);
+	};
 
 	render() {
 		const { sidebarVisible } = this.state;
-
 		let content;
-		switch (this.props.location.pathname) {
+		const id = parseInt(this.props.computedMatch.params.id);
+		switch (this.props.path) {
 		case '/about':
 			content = <AboutContainer />;
+			break;
+		case '/administrators':
+			content = <AdministratorContainer />;
+			break;
+		case '/users':
+			content = <UsersContainer />;
+			break;
+		case '/user/:id':
+			if (isInteger(id)) {
+				content = <UserDetailContainer id={id} />;
+			} else {
+				history.push('/users');
+			}
 			break;
 		default:
 			content = <IndexContainer />;
@@ -40,7 +73,7 @@ class MainLayoutContainer extends Component {
 			<div>
 				<HeaderContainer toggleSidebar={this.toggleSidebar} />
 				<Sidebar.Pushable style={{ minHeight: '100vh', marginTop: 0, border: 'none' }} as={Segment}>
-					<SidebarContainer visible={sidebarVisible} />
+					<SidebarContainer visible={sidebarVisible} onItemClick={this.clickSidebarItem} />
 					<Sidebar.Pusher>
 						<Segment basic style={{ minHeight: '100vh' }}>
 							{content}

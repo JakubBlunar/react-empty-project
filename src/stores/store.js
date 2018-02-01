@@ -2,22 +2,32 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import { persistStore, persistCombineReducers } from 'redux-persist';
+import { createBlacklistFilter } from 'redux-persist-transform-filter';
+
 import storage from 'redux-persist/lib/storage';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { composeWithDevTools } from 'redux-devtools-extension';
-import messageStore from '../reducers/message';
 import authStore from '../reducers/auth';
+import administratorsStore from '../reducers/administrators';
+import userStore from '../reducers/users';
+
+const blackListAuthstore = createBlacklistFilter(
+	'authStore',
+	['loading']
+);
 
 const config = {
 	key: 'root',
 	storage,
-	blacklist: ['messages']
+	blacklist: ['administratorsStore', 'userStore'],
+	transforms: [blackListAuthstore]
 };
 
 const reducers = {
-	messageStore,
-	authStore
+	authStore,
+	administratorsStore,
+	userStore
 };
 
 const reducer = persistCombineReducers(config, reducers);

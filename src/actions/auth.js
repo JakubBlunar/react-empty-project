@@ -1,8 +1,9 @@
 import { history } from '../helpers/history';
+import { postReq } from '../helpers/request';
 import {
 	USER_LOGIN_REQUEST,
 	USER_LOGIN_SUCCESS,
-	// USER_LOGIN_FAILURE,
+	USER_LOGIN_FAILURE,
 	USER_LOGOUT
 } from '../types/auth';
 
@@ -11,13 +12,13 @@ function userLoginRequest() {
 		type: USER_LOGIN_REQUEST
 	};
 }
-/*
+
 function userLoginFailure() {
 	return {
 		type: USER_LOGIN_FAILURE
 	};
 }
-*/
+
 
 function userLoginSuccess(user) {
 	return {
@@ -42,14 +43,13 @@ export function logoutUser() {
 
 export function logInUser(userLoginData) {
 	return (dispatch) => {
-		console.log(userLoginData);
 		dispatch(userLoginRequest());
-		setTimeout(() => {
-			dispatch(userLoginSuccess({
-				id: 10,
-				name: 'Jakub'
-			}));
-			history.push('/');
-		}, 2000);
+		postReq('/admin/api/login', null, userLoginData, (err, user) => {
+			if (err) {
+				return dispatch(userLoginFailure());
+			}
+			dispatch(userLoginSuccess(user));
+			return history.push('/');
+		});
 	};
 }

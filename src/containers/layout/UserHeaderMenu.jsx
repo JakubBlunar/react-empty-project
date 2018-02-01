@@ -3,7 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { Dropdown, Image } from 'semantic-ui-react';
+import Avatar from 'react-avatar';
+import { Dropdown } from 'semantic-ui-react';
 import { history } from '../../helpers/history';
 import * as AuthActions from '../../actions/auth';
 
@@ -12,7 +13,8 @@ class UserHeaderMenu extends Component {
 	static propTypes = {
 		authStore: PropTypes.shape({
 			user: PropTypes.shape({
-				name: PropTypes.string
+				name: PropTypes.string,
+				surname: PropTypes.string
 			}).isRequired
 		}).isRequired,
 		actions: PropTypes.shape({
@@ -27,9 +29,16 @@ class UserHeaderMenu extends Component {
 	render() {
 		const { user } = this.props.authStore;
 
+		const fullName = `${user.name} ${user.surname}`;
+		const avatarOptions = {
+			round: true,
+			size: 35,
+			name: fullName
+		};
+
 		const trigger = (
 			<span>
-				<Image avatar /> {user.name}
+				<Avatar {...avatarOptions} style={{ minWidth: '35px' }} /> {fullName}
 			</span>
 		);
 

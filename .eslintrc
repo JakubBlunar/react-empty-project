@@ -1,6 +1,9 @@
 {
 	"extends": "airbnb",
 	"parser": "babel-eslint",
+	"parserOptions": {
+		"experimentalDecorators": true
+	},
 	"rules": {
         "jsx-a11y/anchor-is-valid": "off",
 		"indent": ["error", "tab"],
@@ -9,5 +12,8 @@
         "react/jsx-indent-props": ["error", "tab"],
         "comma-dangle": ["error", "never"],
         "import/prefer-default-export": "off"
+	},
+	"env": {
+		"browser": true
 	}
 }

@@ -2,7 +2,10 @@
     "presets": [
         "env",
         "react",
-        "stage-3"
+		"stage-3"
     ],
-    "plugins": ["transform-class-properties"]
+    "plugins": [
+		"transform-class-properties",
+		"transform-decorators-legacy"
+	]
 }
