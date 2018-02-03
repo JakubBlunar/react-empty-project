@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { Container, Header, Form, Grid, Tab, Button, Checkbox } from 'semantic-ui-react';
-import { every, values, isString, forOwn, set } from 'lodash';
+import { isString, forOwn, set, split, join, filter } from 'lodash';
 import * as UserActions from '../../actions/user';
 
 import { history } from '../../helpers/history';
@@ -29,7 +29,8 @@ const emptyUser = {
 	email: '',
 	photo: '',
 	phone: '',
-	company: { ...emptyCompany }
+	company: { ...emptyCompany },
+	gallery: []
 };
 
 const emptyState = {
@@ -163,7 +164,10 @@ class UserDetailContainer extends React.Component {
 		if (this.isValid()) {
 			this.setLoading(true);
 
-			this.props.a.updateUser(this.state.formValues, () => {
+			const data = { ...this.state.formValues };
+			data.gallery = data.gallery.join(';');
+
+			this.props.a.updateUser(data, () => {
 				this.setLoading(false);
 			});
 		}
@@ -174,19 +178,24 @@ class UserDetailContainer extends React.Component {
 	}
 
 	galleryChanged = (images) => {
+		this.setState({
+			formValues: { ...this.state.formValues, gallery: images }
+		});
 		console.log('Images changed', images);
+
 	}
 
 	render() {
 		const cropperOptions = {
 			image: this.state.formValues.photo || 'none',
-			imageChanged: this.profilePhotoChanged
+			imageChanged: this.profilePhotoChanged,
+			location: '/admin/api/uploadimage/profile-image'
 		};
 
 		const userPanel = (
 			<Tab.Pane>
 				<Grid>
-					<Grid.Column mobile={16} tablet={16} computer={12}>
+					<Grid.Column mobile={16} tablet={16} computer={11}>
 						<Form.Group widths="equal">
 							<Form.Input
 								fluid
@@ -248,7 +257,7 @@ class UserDetailContainer extends React.Component {
 							/>
 						</Form.Field>
 					</Grid.Column>
-					<Grid.Column mobile={16} tablet={16} computer={4}>
+					<Grid.Column mobile={16} tablet={16} computer={5}>
 						<Form.Field>
 							<label htmlFor="user-photo">Photo:
 								<DropZoneCropper id="user-photo" {...cropperOptions} />
@@ -318,10 +327,14 @@ class UserDetailContainer extends React.Component {
 			</Tab.Pane>
 		);
 
-
 		const galleryPanel = (
 			<Tab.Pane>
-				<GalleryUploader id="user-gallery" images={[]} handleChange={this.galleryChanged} />
+				<GalleryUploader
+					id="user-gallery"
+					images={this.state.formValues.gallery}
+					handleChange={this.galleryChanged}
+					location="/admin/api/uploadimage/gallery-image"
+				/>
 			</Tab.Pane>
 		);
 

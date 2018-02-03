@@ -4,14 +4,14 @@ import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 import Dropzone from 'react-dropzone';
 import { toast } from 'react-toastify';
-import { Button, Card, Image } from 'semantic-ui-react';
-import axios from 'axios';
-import { headers, host } from '../helpers/request';
+import { Button, Card, Image, Dimmer, Loader } from 'semantic-ui-react';
+import { postReq } from '../helpers/request';
 
 class DropZoneCropper extends Component {
 	static propTypes = {
 		image: PropTypes.string.isRequired,
-		imageChanged: PropTypes.func.isRequired
+		imageChanged: PropTypes.func.isRequired,
+		location: PropTypes.string.isRequired
 	}
 
 	constructor(props) {
@@ -21,7 +21,8 @@ class DropZoneCropper extends Component {
 		this.state = {
 			image: baseImage,
 			baseImage,
-			edit: false
+			edit: false,
+			loading: false
 		};
 	}
 
@@ -37,6 +38,12 @@ class DropZoneCropper extends Component {
 		this.setState({ image: files[0].preview });
 	}
 
+	setLoading = (loading) => {
+		this.setState({
+			loading
+		});
+	}
+
 	save = () => {
 		if (!this.state.image) {
 			return this.setState({
@@ -49,35 +56,25 @@ class DropZoneCropper extends Component {
 		return this.cropper.getCroppedCanvas().toBlob((blob) => {
 			const formData = new FormData();
 			formData.append('image', blob);
+			this.setLoading(true);
+			postReq(this.props.location, null, formData, (err, res) => {
+				this.setLoading(false);
+				if (err) {
+					toast.error('Error while saving picture.');
+					return;
+				}
 
-			const newImage = 'https://i.imgur.com/3E7sWBa.jpg';
-
-			return 	this.setState({
-				image: newImage,
-				baseImage: newImage,
-				edit: false
-			}, this.props.imageChanged(newImage));
-
-			/*
-			const newHeaders = { ...headers };
-			headers['Content-Type'] = 'multipart/form-data';
-
-			axios.post(`${host}/uploadImage`, formData, {
-				newHeaders,
-				withCredentials: true
-			}).then((res) => {
-				console.log(res.data);
-				const { image } = rest.data;
-				this.setState({
-					image,
-					baseImage: image,
-					edit: false
-				}, this.props.imageChanged(image));
-			}).catch((err) => {
-				console.log(err);
-				toast.error('Error while uploading picture.');
+				const { image, success } = res;
+				if (success) {
+					this.setState({
+						image,
+						baseImage: image,
+						edit: false
+					}, this.props.imageChanged(image));
+				} else {
+					toast.error('Error while saving picture.');
+				}
 			});
-			*/
 		});
 	}
 
@@ -102,7 +99,7 @@ class DropZoneCropper extends Component {
 
 		const dropzoneStyle = {
 			display: this.state.image ? 'none' : 'block',
-			minWidth: '150px',
+			minWidth: '100px',
 			maxWidth: '100%',
 			minHeight: '150px',
 			maxHeight: '300px',
@@ -114,7 +111,7 @@ class DropZoneCropper extends Component {
 
 		const cropperStyle = {
 			display: this.state.image ? 'block' : 'none',
-			minWidth: '150px',
+			minWidth: '100px',
 			maxWidth: '100%',
 			minHeight: '150px',
 			maxHeight: '300px'
@@ -138,6 +135,8 @@ class DropZoneCropper extends Component {
 				dragMode="move"
 				crop={this.crop}
 				crossOrigin="Anonymous"
+				restore
+				responsive
 			/>) : null;
 
 		const saveButton = edit && image ?
@@ -153,21 +152,26 @@ class DropZoneCropper extends Component {
 			<Button size="mini" onClick={this.cancelEdit} color="orange">Cancel</Button> : null;
 
 		return (
-			<Card fluid>
-				<Card.Content>
-					{!edit && <Image fluid src={image} />}
-					{dropzone}
-					{cropper}
-				</Card.Content>
-				<Card.Content extra>
-					<div className="ui three buttons">
-						{cancelButton}
-						{saveButton}
-						{removeButton}
-						{editButton}
-					</div>
-				</Card.Content>
-			</Card>
+			<div>
+				<Card fluid>
+					<Dimmer active={this.state.loading}>
+						<Loader>Loading</Loader>
+					</Dimmer>
+					<Card.Content>
+						{!edit && <Image fluid src={image} />}
+						{dropzone}
+						{cropper}
+					</Card.Content>
+					<Card.Content extra>
+						<div className="ui three buttons">
+							{cancelButton}
+							{saveButton}
+							{removeButton}
+							{editButton}
+						</div>
+					</Card.Content>
+				</Card>
+			</div>
 		);
 	}
 }

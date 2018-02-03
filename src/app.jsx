@@ -5,12 +5,13 @@ import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { ToastContainer } from 'react-toastify';
 import PropTypes from 'prop-types';
-
+import 'react-anything-sortable/sortable.css';
 import RegistrationPage from './containers/RegistrationPage';
 import LoginPage from './containers/LoginPage';
 import { history } from './helpers/history';
 import MainLayoutContainer from './containers/layout/MainLayoutContainer';
 import NotFound from './containers/404';
+
 
 class AuthRequiredRoute extends Route {
 	static propTypes = {

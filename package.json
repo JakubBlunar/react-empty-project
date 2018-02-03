@@ -25,6 +25,7 @@
   "dependencies": {
     "axios": "^0.17.1",
     "classnames": "^2.2.5",
+    "create-react-class": "^15.6.3",
     "cropperjs": "^1.2.2",
     "express": "^4.16.2",
     "history": "^4.7.2",
@@ -33,6 +34,7 @@
     "query-string": "^5.0.1",
     "react": "^16.2.0",
     "react-addons-shallow-compare": "^15.6.2",
+    "react-anything-sortable": "^1.7.3",
     "react-avatar": "^2.5.1",
     "react-cropper": "^1.0.1",
     "react-dom": "^16.2.0",
